@@ -107,6 +107,29 @@ describe('Bicicleta API', () =>{
             });        
         });
     });
+
+    describe('Post Bicycle /delete', ()=> {
+        it('Status 204', (done)=> {
+            var headers = {'content-type' : 'application/json'};
+            var bic = new Bicycle({ code: 10, color: "red", model: "urban", location: [18.477770, -69.915592] });
+            bic.save();
+
+            request.delete({
+                headers: headers,
+                url: base_url+'/delete',
+                body: '{"code": 10}'
+            }, function(error, response, body){
+                expect(response.statusCode).toBe(204);
+                if (error) console.log(error);
+                Bicycle.allBicycles(function(err, bicycles){    
+                    if (err) console.log(err);      
+                    expect(bicycles.length).toBe(0);
+
+                    done();
+                });
+            });
+        });
+    });
 });
 
 
