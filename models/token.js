@@ -1,13 +1,13 @@
-var mongoose = require('mongoose');
-var moment = require('moment');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var tokenSchema = new Schema({
+const Schema = mongoose.Schema;
+
+const TokenSchema = new Schema({
     
     _userId : {
         type : mongoose.Schema.Types.ObjectId, 
         required: true,
-        ref : 'User'
+        ref : 'Usuario'
     },
     token: {
         type: String, 
@@ -22,4 +22,4 @@ var tokenSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('Token', tokenSchema);
+module.exports = mongoose.model('Token', TokenSchema);
