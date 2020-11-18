@@ -37,7 +37,7 @@ var usuarioSchema = new Schema({
     },
     passwordResetToken: String, 
     passwordResetTokenExpires: Date,
-    verificado = {
+    verificado: {
         type: Boolean,
         default: false
     }
@@ -78,7 +78,7 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
             from: 'no-reply@redbicicleta.com',
             to: email_destination,
             subject: 'Verificación de cuenta',
-            text: 'Hola, \n\n'+' para verificar su cuenta haga click en este enlace: \n' + 'http://localhost:5000'+'\/token/confirmation\/'+token.token + '.\n' 
+            text: 'Hola, \n\n'+' para verificar su cuenta haga click en este enlace: \n' + 'http://localhost:5000'+'\/token/confirmation\/'+token.token + '\n' 
         }
 
         mailer.sendMail(mailOptions, ( err )=> {
