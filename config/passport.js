@@ -4,7 +4,15 @@ const localStrategy = require('passport-local').Strategy;
 const Usuario = require('../models/usuario');
 
 passport.use(new localStrategy(
+    function(email, password, done){
+        Usuario.findOne({email: email}, function(err, usuario) {
+            if(err) return done(err);
+            if(!usuario) return done(null, false, {message:'email no existe o incorrecto'});
+            if(!usuario.validPassword(password)) return done(null,false,{message:'password incorrecto'});
 
+            return done(null, usuario);
+        });
+    }
 ));
 
 passport.serializeUser(function(user, cb){
