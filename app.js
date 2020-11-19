@@ -13,6 +13,8 @@ var bicicletasRouter = require('./routes/bicicletas');
 var bicicletasAPIRouter = require('./routes/api/bicicletas');
 var usuariosAPIRouter = require('./routes/api/usuarios');
 
+var Usuario = require('./models/usuario');
+var Token = require('./models/token');
 
 const store = new session.MemoryStore;
 
@@ -81,7 +83,7 @@ app.post('/forgotPassword', function(req,res,next){
     
 		usuario.resetPassword(function(err){
 		if(err) return next(err);
-		console.log('session/forgotSessionMessage');
+		console.log('session/forgotPasswordMessage');
 		});
     
     	res.render('session/forgotPasswordMessage');
@@ -122,7 +124,7 @@ app.post('/resetPassword', function( req,res,next ){
 app.use('/', indexRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/token', tokenRouter);
-app.use('/bicicletas', bicicletasRouter);
+app.use('/bicicletas', loggedIn, bicicletasRouter);
 app.use('/api/bicicletas', bicicletasAPIRouter);
 app.use('/api/usuarios', usuariosAPIRouter);
 

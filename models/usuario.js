@@ -88,4 +88,31 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
     });
 };
 
+usuarioSchema.methods.resetPassword = function(cb) {
+    const token = new Token({_userId: this._id,token: crypto.randomBytes(16).toString('hex')});
+    const email_destination = this.email;
+
+    console.log('token => ' + token);
+    console.log('token => ' + email_destination);
+
+    token.save(function( err ){
+        if( err ) {
+            return console.log(err.message);
+        }
+        
+        const mailOptions = {
+            from: 'no-reply@redbicicleta.com',
+            to: email_destination,
+            subject: 'Reestablecer password',
+            text: 'Hola, \n\n'+' para reestablecer su password haga click en este enlace: \n' + 'http://localhost:5000'+'\/resetPassword\/'+token.token + '\n' 
+        }
+
+        mailer.sendMail(mailOptions, ( err )=> {
+            if(err) { return console.log(err.message); }
+            console.log('a reset password email has been sent to ' + email_destination);
+        });
+    });
+    
+};
+
 module.exports = mongoose.model('Usuario', usuarioSchema);
